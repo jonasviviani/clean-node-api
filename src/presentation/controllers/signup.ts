@@ -3,13 +3,17 @@ import { MissingParamError } from '../erros/missing-param-error'
 import { badRequest } from '../helpers/http-helper'
 export class SignUpController {
   handle (httpRequest: HttpRequest): HttpResponse {
-    if (!httpRequest.body.name || !httpRequest.body.email) { return badRequest(new MissingParamError('name')) }
+    const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
 
-    if (!httpRequest.body.email) { return badRequest(new MissingParamError('email')) }
+    for (const field of requiredFields) {
+      if (!httpRequest.body[field]) {
+        return badRequest(new MissingParamError(field))
+      }
+    }
 
     return {
-      statusCode: 400,
-      body: new Error('Parametro nome não informado')
+      statusCode: 200,
+      body: 'Sucesso ao logar'
     }
   }
 }

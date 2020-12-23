@@ -9,4 +9,11 @@ describe('Bcrypt Adapter', () => {
     await sut.encrypt('any_value')
     expect(hashSpy).toHaveBeenCalledWith('any_value', salt)
   })
+
+  test('Verificar se o hash esta correto', async () => {
+    const salt = 12
+    const sut = new BcryptAdapter(salt)
+    const hash = await sut.encrypt('any_value')
+    expect(hash).toBe('any_value')
+  })
 })
